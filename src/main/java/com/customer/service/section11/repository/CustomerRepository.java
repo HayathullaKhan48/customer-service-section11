@@ -73,18 +73,18 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
     /**
      * Finds all customers with the given firstname.
      */
-    CustomerResponse findByFirstname(String firstname);
+    List<CustomerModel> findByFirstname(String firstname);
 
     /**
      * Finds all customers where firstname is exactly the given value.
      * (Same as findByFirstname, just more explicit).
      */
-    CustomerResponse  findByFirstnameIs(String firstname);
+    List<CustomerModel>  findByFirstnameIs(String firstname);
 
     /**
      * Finds all customers where firstname equals the given value.
      */
-    CustomerResponse  findByFirstnameEquals(String firstname);
+    List<CustomerModel>  findByFirstnameEquals(String firstname);
 
     /**
      * Finds all customers whose startsDate is between the given range(inclusive).

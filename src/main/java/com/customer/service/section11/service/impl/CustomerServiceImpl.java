@@ -220,25 +220,32 @@ public class CustomerServiceImpl implements CustomerService {
         return CustomerMapper.toCustomerResponse(saved);    }
 
     @Override
-    public CustomerResponse getByFirstname(String firstname) {
-        CustomerModel customer = customerRepository.findByUserName(firstname)
-                .orElseThrow(() -> new RuntimeException("Customer not found with firstname: " + firstname));
-        return CustomerMapper.toResponse(customer);
+    public List<CustomerResponse> getByFirstname(String firstname) {
+        List<CustomerModel> customers = customerRepository.findByFirstname(firstname);
+        if (customers.isEmpty()) {
+            throw new RuntimeException("No customers found with firstname: " + firstname);
+        }
+        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
     @Override
-    public CustomerResponse getByFirstnameIs(String firstname) {
-        CustomerModel customer = customerRepository.findByUserNameIs(firstname)
-                .orElseThrow(() -> new RuntimeException("Customer not found with firstname (Is): " + firstname));
-        return CustomerMapper.toResponse(customer);
+    public List<CustomerResponse> getByFirstnameIs(String firstname) {
+        List<CustomerModel> customers = customerRepository.findByFirstnameIs(firstname);
+        if (customers.isEmpty()) {
+            throw new RuntimeException("No customers found with firstname (Is): " + firstname);
+        }
+        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
     @Override
-    public CustomerResponse getByFirstnameEquals(String firstname) {
-        CustomerModel customer = customerRepository.findByUserNameEquals(firstname)
-                .orElseThrow(() -> new RuntimeException("Customer not found with firstname (Equals): " + firstname));
-        return CustomerMapper.toResponse(customer);
+    public List<CustomerResponse> getByFirstnameEquals(String firstname) {
+        List<CustomerModel> customers = customerRepository.findByFirstnameEquals(firstname);
+        if (customers.isEmpty()) {
+            throw new RuntimeException("No customers found with firstname (Equals): " + firstname);
+        }
+        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
+
 
     @Override
     public List<CustomerResponse> getByStartDateBetween(LocalDate startDate, LocalDate endDate) {
