@@ -168,20 +168,23 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), CUSTOMER_STATUS_UPDATED_SUCCESS, response));
     }
 
-    @GetMapping("/getByFirstAndLastName/{firstName}/{lastName}")
-    @Operation(summary = "Find customer by firstName and lastName", description = "Fetch customer details by firstName and lastName")
-    public ResponseEntity<ApiResponse> getByFirstAndLastName(
-            @PathVariable String firstName,
-            @PathVariable String lastName){
-        CustomerResponse response = customerService.getByFirstNameAndLastName(firstName, lastName);
-        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(),"Customer fetch successfully", response));
+    @GetMapping("/getDistinctByLastNameAndFirstName")
+    @Operation(summary = "Find distinct customer by last name and first name")
+    public ResponseEntity<ApiResponse> getDistinctByLastNameAndFirstName(
+            @RequestParam String lastName,
+            @RequestParam String firstName) {
+
+        CustomerResponse response = customerService.getDistinctByLastNameAndFirstName(lastName, firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customer fetched", response));
     }
 
     @GetMapping("/getByLastNameAndFirstName")
-    @Operation(summary = "Find customer by last name and first name")
+    @Operation(summary = "Find customers by last name and first name")
     public ResponseEntity<ApiResponse> getByLastNameAndFirstName(
-            @RequestParam String lastName,@RequestParam String firstName){
-        List<CustomerResponse> responses = customerService.getByLastNameAndFirstName(lastName, firstName);
-        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(),"Customers fetched",responses));
+            @RequestParam String lastName,
+            @RequestParam String firstName) {
+
+        List<CustomerResponse> response = customerService.getByLastNameAndFirstName(lastName, firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched", response));
     }
 }

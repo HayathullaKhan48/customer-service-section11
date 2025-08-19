@@ -215,15 +215,22 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponse getByFirstNameAndLastName(String firstName, String lastName) {
-        CustomerModel model = customerRepository.findDistinctByFirstNameAndLastName(firstName, lastName)
-                .orElseThrow(()->new CustomerNotExistsException("Customer with firstName: "+ firstName + "and lastName: " + lastName + " " + CUSTOMER_NOT_EXISTS));
+    public CustomerResponse getDistinctByLastNameAndFirstName(String lastName, String firstName) {
+        CustomerModel model = customerRepository.findDistinctByLastNameAndFirstName(lastName, firstName)
+                .orElseThrow(() -> new CustomerNotExistsException(
+                        "Customer not found with firstName: " + firstName + " and lastName: " + lastName
+                ));
         return CustomerMapper.toCustomerResponse(model);
     }
 
     @Override
     public List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName) {
-        List<CustomerModel> models = customerRepository.findByLastNameAndFirstName(lastName,firstName);
+        List<CustomerModel> models = customerRepository.findByLastNameAndFirstName(lastName, firstName);
+        if(models.isEmpty()) {
+            throw new CustomerNotExistsException(
+                    "No customers found with firstName: " + firstName + " and lastName: " + lastName
+            );
+        }
         return models.stream().map(CustomerMapper::toCustomerResponse).collect(Collectors.toList());
     }
 }

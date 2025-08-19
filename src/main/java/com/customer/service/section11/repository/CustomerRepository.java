@@ -74,7 +74,7 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
      */
     boolean existsByCustomerMobileNumber(String customerMobileNumber);
 
-    Optional<CustomerModel> findDistinctByFirstNameAndLastName(String firstName, String lastName);
+    Optional<CustomerModel> findDistinctByLastNameAndFirstName(String firstName, String lastName);
 
     List<CustomerModel> findByLastNameAndFirstName (String lastName, String firstName);
 }
