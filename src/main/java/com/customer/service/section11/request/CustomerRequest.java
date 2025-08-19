@@ -37,7 +37,7 @@ public class CustomerRequest {
     private String userName;
     private String firstName;
     private String lastName;
-    private int customerAge;
+    private Integer customerAge;
     private String customerMobileNumber;
     private String customerEmailAddress;
     private String customerAddress;

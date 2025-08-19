@@ -91,9 +91,15 @@ public interface CustomerService {
      */
     CustomerResponse updateStatusByMobile(String mobileNumber, CustomerStatus status);
 
-    CustomerResponse getDistinctByLastNameAndFirstName(String lastName, String firstName);
+    List<CustomerResponse> getDistinctByLastNameAndFirstName(String lastName, String firstName);
 
     List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName);
 
     List<CustomerResponse> getByLastNameOrFirstName(String lastName, String firstName);
+
+    List<CustomerResponse> getByFirstName(String firstName);
+
+    List<CustomerResponse> getByFirstNameIs(String firstName);
+
+    List<CustomerResponse> getByFirstNameEquals(String firstName);
 }

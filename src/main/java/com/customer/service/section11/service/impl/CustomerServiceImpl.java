@@ -147,6 +147,8 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new CustomerNotExistsException(request.getCustomerMobileNumber() + " " + CUSTOMER_NOT_EXISTS));
 
         model.setUserName(request.getUserName());
+        model.setFirstName(request.getFirstName());
+        model.setLastName(request.getLastName());
         model.setCustomerAge(request.getCustomerAge());
         model.setCustomerAddress(request.getCustomerAddress());
         model.setCustomerEmailAddress(request.getCustomerEmailAddress());
@@ -215,23 +217,25 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerResponse getDistinctByLastNameAndFirstName(String lastName, String firstName) {
-        CustomerModel model = customerRepository.findDistinctByLastNameAndFirstName(lastName, firstName)
-                .orElseThrow(() -> new CustomerNotExistsException(
-                        "Customer not found with firstName: " + firstName + " and lastName: " + lastName
-                ));
-        return CustomerMapper.toCustomerResponse(model);
+    public List<CustomerResponse> getDistinctByLastNameAndFirstName(String lastName, String firstName) {
+        List<CustomerModel> models = customerRepository.findDistinctByLastNameAndFirstName(lastName, firstName);
+        if (models.isEmpty()) {
+            throw new CustomerNotExistsException(
+                    "No distinct customers found with lastName: " + lastName + " and firstName: " + firstName
+            );
+        }
+        return models.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
     @Override
     public List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName) {
         List<CustomerModel> models = customerRepository.findByLastNameAndFirstName(lastName, firstName);
-        if(models.isEmpty()) {
+        if (models.isEmpty()) {
             throw new CustomerNotExistsException(
-                    "No customers found with firstName: " + firstName + " and lastName: " + lastName
+                    "No customers found with lastName: " + lastName + " and firstName: " + firstName
             );
         }
-        return models.stream().map(CustomerMapper::toCustomerResponse).collect(Collectors.toList());
+        return models.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
     @Override
@@ -242,6 +246,33 @@ public class CustomerServiceImpl implements CustomerService {
                     "No customers found with lastName: " + lastName + " or firstName: " + firstName
             );
         }
-        return models.stream().map(CustomerMapper::toCustomerResponse).collect(Collectors.toList());
+        return models.stream().map(CustomerMapper::toCustomerResponse).toList();
+    }
+
+    @Override
+    public List<CustomerResponse> getByFirstName(String firstName) {
+        List<CustomerModel> customers = customerRepository.findByFirstName(firstName);
+        if (customers.isEmpty()) {
+            throw new CustomerNotExistsException("No customers found with firstName: " + firstName);
+        }
+        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
+    }
+
+    @Override
+    public List<CustomerResponse> getByFirstNameIs(String firstName) {
+        List<CustomerModel> customers = customerRepository.findByFirstNameIs(firstName);
+        if (customers.isEmpty()) {
+            throw new CustomerNotExistsException("No customers found with firstName (IS): " + firstName);
+        }
+        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
+    }
+
+    @Override
+    public List<CustomerResponse> getByFirstNameEquals(String firstName) {
+        List<CustomerModel> customers = customerRepository.findByFirstNameEquals(firstName);
+        if (customers.isEmpty()) {
+            throw new CustomerNotExistsException("No customers found with firstName (Equals): " + firstName);
+        }
+        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 }

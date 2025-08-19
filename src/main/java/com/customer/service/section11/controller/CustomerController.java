@@ -165,36 +165,54 @@ public class CustomerController {
     @PatchMapping("/status/{mobileNumber}/{status}")
     public ResponseEntity<ApiResponse> updateStatusByMobile(@PathVariable String mobileNumber, @PathVariable CustomerStatus status) {
         CustomerResponse response = customerService.updateStatusByMobile(mobileNumber, status);
-        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), CUSTOMER_STATUS_UPDATED_SUCCESS, response));
+        return ResponseEntity
+                .ok(new ApiResponse(HttpStatus.OK.value(),
+                        CUSTOMER_STATUS_UPDATED_SUCCESS, response));
     }
 
-    @GetMapping("/getDistinctByLastNameAndFirstName")
-    @Operation(summary = "Find distinct customer by last name and first name")
-    public ResponseEntity<ApiResponse> getDistinctByLastNameAndFirstName(
-            @RequestParam String lastName,
-            @RequestParam String firstName) {
-
-        CustomerResponse response = customerService.getDistinctByLastNameAndFirstName(lastName, firstName);
-        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customer fetched", response));
+    @GetMapping("/getDistinctByLastNameAndFirstName/{lastname}/{firstname}")
+    @Operation(summary = "Get distinct by lastname and firstname")
+    public ResponseEntity<ApiResponse> getDistinctByLastNameAndFirstName(@PathVariable("lastname") String lastName,
+                                                                         @PathVariable("firstname") String firstName) {
+        List<CustomerResponse> response = customerService.getDistinctByLastNameAndFirstName(lastName, firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
-    @GetMapping("/getByLastNameAndFirstName")
-    @Operation(summary = "Find customers by last name and first name")
-    public ResponseEntity<ApiResponse> getByLastNameAndFirstName(
-            @RequestParam String lastName,
-            @RequestParam String firstName) {
-
+    @GetMapping("/getByLastNameAndFirstName/{lastname}/{firstname}")
+    @Operation(summary = "Get by lastname AND firstname")
+    public ResponseEntity<ApiResponse> getByLastNameAndFirstName(@PathVariable("lastname") String lastName,
+                                                                 @PathVariable("firstname") String firstName) {
         List<CustomerResponse> response = customerService.getByLastNameAndFirstName(lastName, firstName);
-        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched", response));
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
-    @GetMapping("/findByLastNameOrFirstName")
-    @Operation(summary = "Find customers by last name or first name")
-    public ResponseEntity<ApiResponse> findByLastNameOrFirstName(
-            @RequestParam String lastName,
-            @RequestParam String firstName) {
-
+    @GetMapping("/getByLastNameOrFirstName/{lastname}/{firstname}")
+    @Operation(summary = "Get by lastname OR firstname")
+    public ResponseEntity<ApiResponse> getByLastNameOrFirstName(@PathVariable("lastname") String lastName,
+                                                                @PathVariable("firstname") String firstName) {
         List<CustomerResponse> response = customerService.getByLastNameOrFirstName(lastName, firstName);
-        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched", response));
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
+
+    @GetMapping("/getByFirstName/{firstname}")
+    @Operation(summary = "Get by firstName")
+    public ResponseEntity<ApiResponse> getByFirstName(@PathVariable("firstname") String firstName) {
+        List<CustomerResponse> response = customerService.getByFirstName(firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
+    }
+
+    @GetMapping("/getByFirstNameIs/{firstname}")
+    @Operation(summary = "Get by firstName (Is)")
+    public ResponseEntity<ApiResponse> getByFirstNameIs(@PathVariable("firstname") String firstName) {
+        List<CustomerResponse> response = customerService.getByFirstNameIs(firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
+    }
+
+    @GetMapping("/getByFirstNameEquals/{firstname}")
+    @Operation(summary = "Get by firstName (Equals)")
+    public ResponseEntity<ApiResponse> getByFirstNameEquals(@PathVariable("firstname") String firstName) {
+        List<CustomerResponse> response = customerService.getByFirstNameEquals(firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
+    }
+
 }
