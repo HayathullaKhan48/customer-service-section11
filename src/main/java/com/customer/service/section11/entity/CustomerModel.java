@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  *  - Tracks creation and update timestamps automatically
  */
 @Entity
-@Table(name = "customer_details_section10")
+@Table(name = "customer_details_section11")
 @Getter
 @Setter
 @AllArgsConstructor
