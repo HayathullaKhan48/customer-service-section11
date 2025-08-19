@@ -1,6 +1,10 @@
 package com.customer.service.section11.request;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 /**
  * CustomerRequest is a **Data Transfer Object (DTO)** that represents

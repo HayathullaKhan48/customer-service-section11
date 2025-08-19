@@ -1,7 +1,11 @@
 package com.customer.service.section11.response;
 
 import com.customer.service.section11.enums.CustomerStatus;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
