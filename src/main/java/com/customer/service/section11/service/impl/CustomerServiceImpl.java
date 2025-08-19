@@ -12,6 +12,7 @@ import com.customer.service.section11.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -145,14 +146,17 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse updateCustomer(CustomerRequest request) {
         CustomerModel model = customerRepository.findByCustomerMobileNumber(request.getCustomerMobileNumber())
                 .orElseThrow(() -> new CustomerNotExistsException(request.getCustomerMobileNumber() + " " + CUSTOMER_NOT_EXISTS));
-
+        model.setFirstName(request.getFirstName());
+        model.setLastName(request.getLastName());
         model.setUserName(request.getUserName());
         model.setCustomerAge(request.getCustomerAge());
         model.setCustomerAddress(request.getCustomerAddress());
         model.setCustomerEmailAddress(request.getCustomerEmailAddress());
+        model.setStartDate(request.getStartDate());
         model.setUpdatedDate(LocalDateTime.now());
 
-        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
+        CustomerModel saved = customerRepository.saveAndFlush(model);
+        return CustomerMapper.toCustomerResponse(saved);
     }
 
     /**
@@ -170,7 +174,8 @@ public class CustomerServiceImpl implements CustomerService {
         model.setUserStatus(CustomerStatus.INACTIVE);
         model.setUpdatedDate(LocalDateTime.now());
 
-        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
+        CustomerModel saved = customerRepository.saveAndFlush(model);
+        return CustomerMapper.toCustomerResponse(saved);
     }
 
     /**
@@ -194,8 +199,8 @@ public class CustomerServiceImpl implements CustomerService {
         model.setCustomerMobileNumber(mobileNumber);
         model.setUpdatedDate(LocalDateTime.now());
 
-        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
-    }
+        CustomerModel saved = customerRepository.saveAndFlush(model);
+        return CustomerMapper.toCustomerResponse(saved);    }
 
     /**
      * Updates a customer's status using their mobile number.
@@ -211,6 +216,67 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new CustomerNotExistsException(mobileNumber + " " + CUSTOMER_NOT_EXISTS));
         model.setUserStatus(status);
         model.setUpdatedDate(LocalDateTime.now());
-        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
+        CustomerModel saved = customerRepository.saveAndFlush(model);
+        return CustomerMapper.toCustomerResponse(saved);    }
+
+    @Override
+    public CustomerResponse getByFirstname(String firstname) {
+        CustomerModel customer = customerRepository.findByUserName(firstname)
+                .orElseThrow(() -> new RuntimeException("Customer not found with firstname: " + firstname));
+        return CustomerMapper.toResponse(customer);
+    }
+
+    @Override
+    public CustomerResponse getByFirstnameIs(String firstname) {
+        CustomerModel customer = customerRepository.findByUserNameIs(firstname)
+                .orElseThrow(() -> new RuntimeException("Customer not found with firstname (Is): " + firstname));
+        return CustomerMapper.toResponse(customer);
+    }
+
+    @Override
+    public CustomerResponse getByFirstnameEquals(String firstname) {
+        CustomerModel customer = customerRepository.findByUserNameEquals(firstname)
+                .orElseThrow(() -> new RuntimeException("Customer not found with firstname (Equals): " + firstname));
+        return CustomerMapper.toResponse(customer);
+    }
+
+    @Override
+    public List<CustomerResponse> getByStartDateBetween(LocalDate startDate, LocalDate endDate) {
+        return customerRepository.findByStartDateBetween(startDate, endDate)
+                .stream()
+                .map(CustomerMapper::toCustomerResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CustomerResponse> getByAgeLessThan(int age) {
+        return customerRepository.findByCustomerAgeLessThen(age)
+                .stream()
+                .map(CustomerMapper::toCustomerResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CustomerResponse> getByAgeLessThanEqual(int age) {
+        return customerRepository.findByCustomerAgeLessThanEqual(age)
+                .stream()
+                .map(CustomerMapper::toCustomerResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CustomerResponse> getByAgeGreaterThan(int age) {
+        return customerRepository.findByCustomerAgeGreaterThan(age)
+                .stream()
+                .map(CustomerMapper::toCustomerResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CustomerResponse> getByAgeGreaterThanEqual(int age) {
+        return customerRepository.findByCustomerAgeGreaterThenEqual(age)
+                .stream()
+                .map(CustomerMapper::toCustomerResponse)
+                .collect(Collectors.toList());
     }
 }
