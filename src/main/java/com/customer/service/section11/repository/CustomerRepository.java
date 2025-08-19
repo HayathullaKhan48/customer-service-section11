@@ -77,4 +77,6 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
     Optional<CustomerModel> findDistinctByLastNameAndFirstName(String firstName, String lastName);
 
     List<CustomerModel> findByLastNameAndFirstName (String lastName, String firstName);
+
+    List<CustomerModel> findByLastNameOrFirstName(String lastName, String firstName);
 }

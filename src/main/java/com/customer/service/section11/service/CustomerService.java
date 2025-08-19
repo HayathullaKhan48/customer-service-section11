@@ -95,5 +95,5 @@ public interface CustomerService {
 
     List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName);
 
-
+    List<CustomerResponse> getByLastNameOrFirstName(String lastName, String firstName);
 }

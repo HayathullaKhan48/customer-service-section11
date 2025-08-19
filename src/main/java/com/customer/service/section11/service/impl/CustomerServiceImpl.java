@@ -233,4 +233,15 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return models.stream().map(CustomerMapper::toCustomerResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public List<CustomerResponse> getByLastNameOrFirstName(String lastName, String firstName) {
+        List<CustomerModel> models = customerRepository.findByLastNameOrFirstName(lastName, firstName);
+        if (models.isEmpty()) {
+            throw new CustomerNotExistsException(
+                    "No customers found with lastName: " + lastName + " or firstName: " + firstName
+            );
+        }
+        return models.stream().map(CustomerMapper::toCustomerResponse).collect(Collectors.toList());
+    }
 }

@@ -187,4 +187,14 @@ public class CustomerController {
         List<CustomerResponse> response = customerService.getByLastNameAndFirstName(lastName, firstName);
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched", response));
     }
+
+    @GetMapping("/findByLastNameOrFirstName")
+    @Operation(summary = "Find customers by last name or first name")
+    public ResponseEntity<ApiResponse> findByLastNameOrFirstName(
+            @RequestParam String lastName,
+            @RequestParam String firstName) {
+
+        List<CustomerResponse> response = customerService.getByLastNameOrFirstName(lastName, firstName);
+        return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched", response));
+    }
 }
