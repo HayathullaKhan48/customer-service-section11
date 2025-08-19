@@ -12,5 +12,4 @@ public class CustomerConstant {
     public static final String CUSTOMER_DELETED_SUCCESS = "Customer deleted Successfully";
 
     public static final String CUSTOMER_STATUS_UPDATED_SUCCESS = "Customer status updated Successfully";
-    public static final String CUSTOMER_FETCHED_SUCCESS = "Customer fetched Successfully";
 }

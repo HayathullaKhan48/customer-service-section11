@@ -4,7 +4,6 @@ import com.customer.service.section11.enums.CustomerStatus;
 import com.customer.service.section11.request.CustomerRequest;
 import com.customer.service.section11.response.CustomerResponse;
 
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -92,20 +91,7 @@ public interface CustomerService {
      */
     CustomerResponse updateStatusByMobile(String mobileNumber, CustomerStatus status);
 
-    List<CustomerResponse> getByFirstname(String firstname);
+    CustomerResponse getByFirstNameAndLastName(String firstName, String lastName);
 
-    List<CustomerResponse> getByFirstnameIs(String firstname);
-
-    List<CustomerResponse> getByFirstnameEquals(String firstname);
-
-    List<CustomerResponse> getByStartDateBetween(LocalDate startDate, LocalDate endDate);
-
-    List<CustomerResponse> getByAgeLessThan(int age);
-
-    List<CustomerResponse> getByAgeLessThanEqual(int age);
-
-    List<CustomerResponse> getByAgeGreaterThan(int age);
-
-    List<CustomerResponse> getByAgeGreaterThanEqual(int age);
+    List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName);
 }
-

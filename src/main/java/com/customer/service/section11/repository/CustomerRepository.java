@@ -1,18 +1,17 @@
 package com.customer.service.section11.repository;
 
 import com.customer.service.section11.entity.CustomerModel;
-import com.customer.service.section11.response.CustomerResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * CustomerRepository acts as the Data Access Layer for interacting with the `CustomerModel` table.
  * <p>
- * It extends {@link JpaRepository} to inherit basic CRUD operations (Create, Read, Update, Delete).
+ * It extends {@link JpaRepository} to inherit basic CRUD operations (Create, Read, Update, Delete)
+ * without needing boilerplate SQL or manual queries.
  * <p>
  * Benefits:
  * - Automatically provides methods like save(), findAll(), findById(), delete(), etc.
@@ -24,6 +23,9 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
 
     /**
      * Finds a customer by their mobile number.
+     * <p>
+     * - Returns an {@link Optional} to avoid `NullPointerException` if no match is found.
+     * - The method name follows Spring Data JPA naming conventions, so no manual query is required.
      *
      * @param customerMobileNumber The unique mobile number of the customer.
      * @return Optional containing CustomerModel if found, else empty.
@@ -48,6 +50,8 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
 
     /**
      * Checks whether a customer with the given username exists.
+     * <p>
+     * - Used for validation before creating a new customer to avoid duplicates.
      *
      * @param userName The username to check.
      * @return true if exists, false otherwise.
@@ -70,48 +74,7 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
      */
     boolean existsByCustomerMobileNumber(String customerMobileNumber);
 
-    /**
-     * Finds all customers with the given firstname.
-     */
-    List<CustomerModel> findByFirstname(String firstname);
+    Optional<CustomerModel> findDistinctByFirstNameAndLastName(String firstName, String lastName);
 
-    /**
-     * Finds all customers where firstname is exactly the given value.
-     * (Same as findByFirstname, just more explicit).
-     */
-    List<CustomerModel>  findByFirstnameIs(String firstname);
-
-    /**
-     * Finds all customers where firstname equals the given value.
-     */
-    List<CustomerModel>  findByFirstnameEquals(String firstname);
-
-    /**
-     * Finds all customers whose startsDate is between the given range(inclusive).
-     *
-     * @param start Start date.
-     * @param end End date.
-     * @return List of matching customers.
-     */
-    List<CustomerModel> findByStartDateBetween(LocalDate start, LocalDate end);
-
-    /**
-     * Finds all customers whose age is strictly less than the given value.
-     */
-    List<CustomerModel> findByCustomerAgeLessThen(int age);
-
-    /**
-     * Finds all customers whose age is less than or equal to the given value.
-     */
-    List<CustomerModel> findByCustomerAgeLessThanEqual(int age);
-
-    /**
-     * Finds all customers whose age is strictly greater than the given value.
-     */
-    List<CustomerModel> findByCustomerAgeGreaterThan(int age);
-
-    /**
-     * Finds all customers whose age is greater than or equal to the given value.
-     */
-    List<CustomerModel> findByCustomerAgeGreaterThenEqual(int age);
+    List<CustomerModel> findByLastNameAndFirstName (String lastName, String firstName);
 }

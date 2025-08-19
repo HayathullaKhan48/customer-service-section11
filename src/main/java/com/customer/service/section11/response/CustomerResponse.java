@@ -3,13 +3,40 @@ package com.customer.service.section11.response;
 import com.customer.service.section11.enums.CustomerStatus;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * CustomerResponseData is the inner DTO that represents customer details
- * returned in API responses. This separates metadata (code/message)
- * from actual customer data.
+ * CustomerResponse is a **Data Transfer Object (DTO)** that represents the data
+ * sent back to the client after performing operations such as create, update, delete, or fetch.
+ * <p>
+ * This class is typically used in the Controller layer to format and send
+ * the output data as a JSON response.
+ * <p>
+ * Key Points:
+ * <ul>
+ *   <li>Contains all the necessary fields to display customer details in the response.</li>
+ *   <li>Includes status and timestamp fields for better tracking.</li>
+ *   <li>Uses Lombok to reduce boilerplate code for getters, setters, constructors, and builder pattern.</li>
+ * </ul>
+ * <p>
+ * Example JSON Response:
+ * <pre>
+ * {
+ *     "code": 201,
+ *     "message": "Customer created Successfully",
+ *     "data": {
+ *         "customerId": 5,
+ *         "userName": "Aiyan",
+ *         "customerAge": 2,
+ *         "customerEmailAddress": "Aiyan@gamil.com",
+ *         "customerMobileNumber": "0987654321",
+ *         "customerAddress": "chinnamandem",
+ *         "userStatus": "ACTIVE",
+ *         "createdDate": "2025-08-13T17:55:12.534845",
+ *         "updatedDate": "2025-08-13T17:55:12.534845"
+ *     }
+ * }
+ * </pre>
  */
 @Getter
 @Setter
@@ -26,7 +53,6 @@ public class CustomerResponse {
     private String customerMobileNumber;
     private String customerAddress;
     private CustomerStatus userStatus;
-    private LocalDate startDate;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
 }

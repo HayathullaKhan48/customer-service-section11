@@ -2,9 +2,6 @@ package com.customer.service.section11.request;
 
 import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 /**
  * CustomerRequest is a **Data Transfer Object (DTO)** that represents
  * the input payload received from the client when creating or updating a customer.
@@ -37,12 +34,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class CustomerRequest {
+    private String userName;
     private String firstName;
     private String lastName;
-    private String userName;
     private int customerAge;
     private String customerMobileNumber;
     private String customerEmailAddress;
     private String customerAddress;
-    private LocalDate startDate;
 }

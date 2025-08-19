@@ -26,14 +26,13 @@ public class CustomerMapper {
      */
     public static CustomerModel toCustomerModel(CustomerRequest request) {
         return CustomerModel.builder()
+                .userName(request.getUserName())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .userName(request.getUserName())
                 .customerAge(request.getCustomerAge())
                 .customerMobileNumber(request.getCustomerMobileNumber())
                 .customerEmailAddress(request.getCustomerEmailAddress())
                 .customerAddress(request.getCustomerAddress())
-                .startDate(request.getStartDate())
                 .userStatus(CustomerStatus.ACTIVE)
                 .password(autoGenerateHashPassword())
                 .createdDate(LocalDateTime.now())
@@ -50,15 +49,14 @@ public class CustomerMapper {
     public static CustomerResponse toCustomerResponse(CustomerModel model) {
         return CustomerResponse.builder()
                 .customerId(model.getCustomerId())
+                .userName(model.getUserName())
                 .firstName(model.getFirstName())
                 .lastName(model.getLastName())
-                .userName(model.getUserName())
                 .customerAge(model.getCustomerAge())
                 .customerMobileNumber(model.getCustomerMobileNumber())
                 .customerEmailAddress(model.getCustomerEmailAddress())
                 .customerAddress(model.getCustomerAddress())
                 .userStatus(model.getUserStatus())
-                .startDate(model.getStartDate())
                 .createdDate(model.getCreatedDate())
                 .updatedDate(model.getUpdatedDate())
                 .build();

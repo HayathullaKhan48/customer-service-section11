@@ -6,22 +6,18 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
  * CustomerModel - Entity class for storing customer details in the database.
- * Updates in Section11:
- *  - Added firstName & lastName fields (to support findByFirstname queries).
- *  - Added startDate field (to support findByStartDateBetween).
  * This class:
- *  - Represents a table in the database (`customer_details_section11`)
+ *  - Represents a table in the database (`customer_details_section10`)
  *  - Uses JPA annotations for ORM (Object-Relational Mapping)
  *  - Uses Lombok annotations to remove boilerplate getter/setter code
  *  - Tracks creation and update timestamps automatically
  */
 @Entity
-@Table(name = "customer_details_section11")
+@Table(name = "customer_details_section10")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -34,14 +30,14 @@ public class CustomerModel {
     @Column(name = "customerId")
     private Long customerId;
 
+    @Column(name = "userName")
+    private String userName;
+
     @Column(name = "firstName")
     private String firstName;
 
     @Column(name = "lastName")
     private String lastName;
-
-    @Column(name = "userName")
-    private String userName;
 
     @Column(name = "customerAge")
     private Integer customerAge;
@@ -61,9 +57,6 @@ public class CustomerModel {
     @Enumerated(EnumType.STRING)
     @Column(name = "userStatus")
     private CustomerStatus userStatus;
-
-    @Column(name = "startDate")
-    private LocalDate startDate;
 
     @Column(name = "createdDate")
     @CreationTimestamp

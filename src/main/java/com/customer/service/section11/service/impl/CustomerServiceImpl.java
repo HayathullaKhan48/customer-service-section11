@@ -12,7 +12,6 @@ import com.customer.service.section11.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,17 +145,14 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse updateCustomer(CustomerRequest request) {
         CustomerModel model = customerRepository.findByCustomerMobileNumber(request.getCustomerMobileNumber())
                 .orElseThrow(() -> new CustomerNotExistsException(request.getCustomerMobileNumber() + " " + CUSTOMER_NOT_EXISTS));
-        model.setFirstName(request.getFirstName());
-        model.setLastName(request.getLastName());
+
         model.setUserName(request.getUserName());
         model.setCustomerAge(request.getCustomerAge());
         model.setCustomerAddress(request.getCustomerAddress());
         model.setCustomerEmailAddress(request.getCustomerEmailAddress());
-        model.setStartDate(request.getStartDate());
         model.setUpdatedDate(LocalDateTime.now());
 
-        CustomerModel saved = customerRepository.saveAndFlush(model);
-        return CustomerMapper.toCustomerResponse(saved);
+        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
     }
 
     /**
@@ -174,8 +170,7 @@ public class CustomerServiceImpl implements CustomerService {
         model.setUserStatus(CustomerStatus.INACTIVE);
         model.setUpdatedDate(LocalDateTime.now());
 
-        CustomerModel saved = customerRepository.saveAndFlush(model);
-        return CustomerMapper.toCustomerResponse(saved);
+        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
     }
 
     /**
@@ -199,8 +194,8 @@ public class CustomerServiceImpl implements CustomerService {
         model.setCustomerMobileNumber(mobileNumber);
         model.setUpdatedDate(LocalDateTime.now());
 
-        CustomerModel saved = customerRepository.saveAndFlush(model);
-        return CustomerMapper.toCustomerResponse(saved);    }
+        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
+    }
 
     /**
      * Updates a customer's status using their mobile number.
@@ -216,74 +211,19 @@ public class CustomerServiceImpl implements CustomerService {
                 .orElseThrow(() -> new CustomerNotExistsException(mobileNumber + " " + CUSTOMER_NOT_EXISTS));
         model.setUserStatus(status);
         model.setUpdatedDate(LocalDateTime.now());
-        CustomerModel saved = customerRepository.saveAndFlush(model);
-        return CustomerMapper.toCustomerResponse(saved);    }
-
-    @Override
-    public List<CustomerResponse> getByFirstname(String firstname) {
-        List<CustomerModel> customers = customerRepository.findByFirstname(firstname);
-        if (customers.isEmpty()) {
-            throw new RuntimeException("No customers found with firstname: " + firstname);
-        }
-        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
+        return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
     }
 
     @Override
-    public List<CustomerResponse> getByFirstnameIs(String firstname) {
-        List<CustomerModel> customers = customerRepository.findByFirstnameIs(firstname);
-        if (customers.isEmpty()) {
-            throw new RuntimeException("No customers found with firstname (Is): " + firstname);
-        }
-        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
+    public CustomerResponse getByFirstNameAndLastName(String firstName, String lastName) {
+        CustomerModel model = customerRepository.findDistinctByFirstNameAndLastName(firstName, lastName)
+                .orElseThrow(()->new CustomerNotExistsException("Customer with firstName: "+ firstName + "and lastName: " + lastName + " " + CUSTOMER_NOT_EXISTS));
+        return CustomerMapper.toCustomerResponse(model);
     }
 
     @Override
-    public List<CustomerResponse> getByFirstnameEquals(String firstname) {
-        List<CustomerModel> customers = customerRepository.findByFirstnameEquals(firstname);
-        if (customers.isEmpty()) {
-            throw new RuntimeException("No customers found with firstname (Equals): " + firstname);
-        }
-        return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
-    }
-
-
-    @Override
-    public List<CustomerResponse> getByStartDateBetween(LocalDate startDate, LocalDate endDate) {
-        return customerRepository.findByStartDateBetween(startDate, endDate)
-                .stream()
-                .map(CustomerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<CustomerResponse> getByAgeLessThan(int age) {
-        return customerRepository.findByCustomerAgeLessThen(age)
-                .stream()
-                .map(CustomerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<CustomerResponse> getByAgeLessThanEqual(int age) {
-        return customerRepository.findByCustomerAgeLessThanEqual(age)
-                .stream()
-                .map(CustomerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<CustomerResponse> getByAgeGreaterThan(int age) {
-        return customerRepository.findByCustomerAgeGreaterThan(age)
-                .stream()
-                .map(CustomerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<CustomerResponse> getByAgeGreaterThanEqual(int age) {
-        return customerRepository.findByCustomerAgeGreaterThenEqual(age)
-                .stream()
-                .map(CustomerMapper::toCustomerResponse)
-                .collect(Collectors.toList());
+    public List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName) {
+        List<CustomerModel> models = customerRepository.findByLastNameAndFirstName(lastName,firstName);
+        return models.stream().map(CustomerMapper::toCustomerResponse).collect(Collectors.toList());
     }
 }
