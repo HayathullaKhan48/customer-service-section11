@@ -19,24 +19,6 @@ import java.time.LocalDateTime;
  *   <li>Uses Lombok to reduce boilerplate code for getters, setters, constructors, and builder pattern.</li>
  * </ul>
  * <p>
- * Example JSON Response:
- * <pre>
- * {
- *     "code": 201,
- *     "message": "Customer created Successfully",
- *     "data": {
- *         "customerId": 5,
- *         "userName": "Aiyan",
- *         "customerAge": 2,
- *         "customerEmailAddress": "Aiyan@gamil.com",
- *         "customerMobileNumber": "0987654321",
- *         "customerAddress": "chinnamandem",
- *         "userStatus": "ACTIVE",
- *         "createdDate": "2025-08-13T17:55:12.534845",
- *         "updatedDate": "2025-08-13T17:55:12.534845"
- *     }
- * }
- * </pre>
  */
 @Getter
 @Setter

@@ -216,6 +216,15 @@ public class CustomerServiceImpl implements CustomerService {
         return CustomerMapper.toCustomerResponse(customerRepository.saveAndFlush(model));
     }
 
+    /**
+     * Retrieves a distinct list of customers matching the given lastName and firstName.
+     * "Distinct" ensures no duplicate records are returned from the database.
+     *
+     * @param lastName  the last name of the customer
+     * @param firstName the first name of the customer
+     * @return a list of unique CustomerResponse objects
+     * @throws CustomerNotExistsException if no matching customers are found
+     */
     @Override
     public List<CustomerResponse> getDistinctByLastNameAndFirstName(String lastName, String firstName) {
         List<CustomerModel> models = customerRepository.findDistinctByLastNameAndFirstName(lastName, firstName);
@@ -227,6 +236,14 @@ public class CustomerServiceImpl implements CustomerService {
         return models.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
+    /**
+     * Retrieves customers that match both lastName AND firstName exactly.
+     *
+     * @param lastName  the last name of the customer
+     * @param firstName the first name of the customer
+     * @return a list of CustomerResponse objects
+     * @throws CustomerNotExistsException if no customers match both fields
+     */
     @Override
     public List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName) {
         List<CustomerModel> models = customerRepository.findByLastNameAndFirstName(lastName, firstName);
@@ -238,6 +255,15 @@ public class CustomerServiceImpl implements CustomerService {
         return models.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
+    /**
+     * Retrieves customers that match either lastName OR firstName.
+     * Useful when you want a broader search criteria.
+     *
+     * @param lastName  the last name of the customer
+     * @param firstName the first name of the customer
+     * @return a list of CustomerResponse objects
+     * @throws CustomerNotExistsException if no customers match either field
+     */
     @Override
     public List<CustomerResponse> getByLastNameOrFirstName(String lastName, String firstName) {
         List<CustomerModel> models = customerRepository.findByLastNameOrFirstName(lastName, firstName);
@@ -249,6 +275,13 @@ public class CustomerServiceImpl implements CustomerService {
         return models.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
+    /**
+     * Retrieves customers by matching only the firstName.
+     *
+     * @param firstName the first name of the customer
+     * @return a list of CustomerResponse objects
+     * @throws CustomerNotExistsException if no customers match the given firstName
+     */
     @Override
     public List<CustomerResponse> getByFirstName(String firstName) {
         List<CustomerModel> customers = customerRepository.findByFirstName(firstName);
@@ -258,6 +291,15 @@ public class CustomerServiceImpl implements CustomerService {
         return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
+    /**
+     * Retrieves customers by matching only the firstName (using "IS" keyword).
+     * Functionally similar to getByFirstName, but demonstrates the use of
+     * Spring Data JPA's "Is" keyword for better readability.
+     *
+     * @param firstName the first name of the customer
+     * @return a list of CustomerResponse objects
+     * @throws CustomerNotExistsException if no customers match
+     */
     @Override
     public List<CustomerResponse> getByFirstNameIs(String firstName) {
         List<CustomerModel> customers = customerRepository.findByFirstNameIs(firstName);
@@ -267,6 +309,14 @@ public class CustomerServiceImpl implements CustomerService {
         return customers.stream().map(CustomerMapper::toCustomerResponse).toList();
     }
 
+    /**
+     * Retrieves customers by matching only the firstName (using "Equals" keyword).
+     * Explicitly enforces equality check, similar to SQL "=" operator.
+     *
+     * @param firstName the first name of the customer
+     * @return a list of CustomerResponse objects
+     * @throws CustomerNotExistsException if no customers match
+     */
     @Override
     public List<CustomerResponse> getByFirstNameEquals(String firstName) {
         List<CustomerModel> customers = customerRepository.findByFirstNameEquals(firstName);

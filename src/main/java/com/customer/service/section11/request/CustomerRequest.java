@@ -16,17 +16,6 @@ import lombok.*;
  *   <li>Uses Lombok annotations to auto-generate boilerplate code (getters, setters, constructors, builder).</li>
  * </ul>
  * <p>
- * Example JSON request body for creating a customer:
- * <pre>
- * {
- *   "userName": "HayathullaUpdate",
- *   "customerAge": 24,
- *   "customerMobileNumber": "6304474604",
- *   "customerEmailAddress": "Hayath@gamil.com",
- *   "customerAddress": " Main Street",
- *   "password": "01021401021"
- * }
- * </pre>
  */
 @Getter
 @Setter

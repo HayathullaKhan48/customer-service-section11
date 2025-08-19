@@ -58,7 +58,6 @@ public class CustomerController {
         List<CustomerResponse> response = customerService.getAllCustomersData();
         return ResponseEntity
                 .ok(new ApiResponse(HttpStatus.OK.value(), HttpStatus.OK.name(), response));
-
     }
 
     /**
@@ -170,6 +169,14 @@ public class CustomerController {
                         CUSTOMER_STATUS_UPDATED_SUCCESS, response));
     }
 
+    /**
+     * Fetches distinct customers by lastName AND firstName.
+     * This ensures only unique customer records are returned when duplicates exist.
+     *
+     * @param lastName  The last name of the customer.
+     * @param firstName The first name of the customer.
+     * @return ResponseEntity with a list of distinct CustomerResponse objects.
+     */
     @GetMapping("/getDistinctByLastNameAndFirstName/{lastname}/{firstname}")
     @Operation(summary = "Get distinct by lastname and firstname")
     public ResponseEntity<ApiResponse> getDistinctByLastNameAndFirstName(@PathVariable("lastname") String lastName,
@@ -178,6 +185,13 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
+    /**
+     * Fetches customers by lastName AND firstName (both conditions must match).
+     *
+     * @param lastName  The last name of the customer.
+     * @param firstName The first name of the customer.
+     * @return ResponseEntity with a list of matching CustomerResponse objects.
+     */
     @GetMapping("/getByLastNameAndFirstName/{lastname}/{firstname}")
     @Operation(summary = "Get by lastname AND firstname")
     public ResponseEntity<ApiResponse> getByLastNameAndFirstName(@PathVariable("lastname") String lastName,
@@ -186,6 +200,14 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
+    /**
+     * Fetches customers where either lastName OR firstName matches.
+     * Useful when you want results if at least one of the fields matches.
+     *
+     * @param lastName  The last name of the customer.
+     * @param firstName The first name of the customer.
+     * @return ResponseEntity with a list of matching CustomerResponse objects.
+     */
     @GetMapping("/getByLastNameOrFirstName/{lastname}/{firstname}")
     @Operation(summary = "Get by lastname OR firstname")
     public ResponseEntity<ApiResponse> getByLastNameOrFirstName(@PathVariable("lastname") String lastName,
@@ -194,6 +216,13 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
+    /**
+     * Fetches customers by firstName.
+     * Matches directly against the provided firstName.
+     *
+     * @param firstName The first name of the customer.
+     * @return ResponseEntity with a list of CustomerResponse objects.
+     */
     @GetMapping("/getByFirstName/{firstname}")
     @Operation(summary = "Get by firstName")
     public ResponseEntity<ApiResponse> getByFirstName(@PathVariable("firstname") String firstName) {
@@ -201,6 +230,13 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
+    /**
+     * Fetches customers by firstName using "Is" keyword.
+     * This is semantically the same as equals, but can be clearer in method naming.
+     *
+     * @param firstName The first name of the customer.
+     * @return ResponseEntity with a list of CustomerResponse objects.
+     */
     @GetMapping("/getByFirstNameIs/{firstname}")
     @Operation(summary = "Get by firstName (Is)")
     public ResponseEntity<ApiResponse> getByFirstNameIs(@PathVariable("firstname") String firstName) {
@@ -208,6 +244,13 @@ public class CustomerController {
         return ResponseEntity.ok(new ApiResponse(HttpStatus.OK.value(), "Customers fetched successfully", response));
     }
 
+    /**
+     * Fetches customers by firstName using "Equals".
+     * Explicitly checks if the field exactly matches the given firstName.
+     *
+     * @param firstName The first name of the customer.
+     * @return ResponseEntity with a list of CustomerResponse objects.
+     */
     @GetMapping("/getByFirstNameEquals/{firstname}")
     @Operation(summary = "Get by firstName (Equals)")
     public ResponseEntity<ApiResponse> getByFirstNameEquals(@PathVariable("firstname") String firstName) {

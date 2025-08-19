@@ -74,16 +74,59 @@ public interface CustomerRepository extends JpaRepository<CustomerModel, Long> {
      */
     boolean existsByCustomerMobileNumber(String customerMobileNumber);
 
+    /**
+     * Finds distinct customers by lastName and firstName.
+     * Removes duplicates in the result based on the combination of these two fields.
+     *
+     * @param firstName the first name of the customer
+     * @param lastName the last name of the customer
+     * @return a list of distinct matching customers
+     */
     List<CustomerModel> findDistinctByLastNameAndFirstName(String firstName, String lastName);
 
+    /**
+     * Finds customers where both lastName AND firstName match the given values.
+     *
+     * @param lastName the last name of the customer
+     * @param firstName the first name of the customer
+     * @return a list of customers matching both names
+     */
     List<CustomerModel> findByLastNameAndFirstName (String lastName, String firstName);
 
+    /**
+     * Finds customers where either lastName OR firstName match the given values.
+     *
+     * @param lastName the last name of the customer
+     * @param firstName the first name of the customer
+     * @return a list of customers matching either condition
+     */
     List<CustomerModel> findByLastNameOrFirstName(String lastName, String firstName);
 
+    /**
+     * Finds customers by matching the given firstName.
+     * Equivalent to SQL WHERE first_name = ?.
+     *
+     * @param firstName the first name of the customer
+     * @return a list of customers with the given first name
+     */
     List<CustomerModel> findByFirstName(String firstName);
 
+    /**
+     * Finds customers by matching the given firstName.
+     * "Is" is functionally the same as {@link #findByFirstName(String)}.
+     *
+     * @param firstName the first name of the customer
+     * @return a list of customers with the given first name
+     */
     List<CustomerModel> findByFirstNameIs(String firstName);
 
+    /**
+     * Finds customers by matching the given firstName.
+     * "Equals" is functionally the same as {@link #findByFirstName(String)}.
+     *
+     * @param firstName the first name of the customer
+     * @return a list of customers with the given first name
+     */
     List<CustomerModel> findByFirstNameEquals(String firstName);
 
 }

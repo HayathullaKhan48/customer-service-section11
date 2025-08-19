@@ -91,15 +91,57 @@ public interface CustomerService {
      */
     CustomerResponse updateStatusByMobile(String mobileNumber, CustomerStatus status);
 
+    /**
+     * Fetches distinct customers that match the provided lastName and firstName.
+     * Ensures duplicate records are not returned.
+     *
+     * @param lastName  the customer's last name
+     * @param firstName the customer's first name
+     * @return a list of distinct customer responses
+     */
+
     List<CustomerResponse> getDistinctByLastNameAndFirstName(String lastName, String firstName);
 
+    /**
+     * Fetches customers that exactly match both lastName and firstName.
+     *
+     * @param lastName  the customer's last name
+     * @param firstName the customer's first name
+     * @return a list of matching customer responses
+     */
     List<CustomerResponse> getByLastNameAndFirstName(String lastName, String firstName);
 
+    /**
+     * Fetches customers that match either lastName or firstName.
+     *
+     * @param lastName  the customer's last name
+     * @param firstName the customer's first name
+     * @return a list of matching customer responses
+     */
     List<CustomerResponse> getByLastNameOrFirstName(String lastName, String firstName);
 
+    /**
+     * Fetches customers that match the provided firstName.
+     *
+     * @param firstName the customer's first name
+     * @return a list of customer responses with the given first name
+     */
     List<CustomerResponse> getByFirstName(String firstName);
 
+    /**
+     * Fetches customers by using the "IS" keyword on firstName.
+     * Works the same as equals but follows Spring Data naming conventions.
+     *
+     * @param firstName the customer's first name
+     * @return a list of customer responses with the given first name
+     */
     List<CustomerResponse> getByFirstNameIs(String firstName);
 
+    /**
+     * Fetches customers by explicitly matching firstName using equals comparison.
+     *
+     * @param firstName the customer's first name
+     * @return a list of customer responses with the given first name
+     */
     List<CustomerResponse> getByFirstNameEquals(String firstName);
 }
